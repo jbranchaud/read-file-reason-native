@@ -13,3 +13,15 @@ switch (Unix.openfile("my-file.txt", [Unix.O_RDONLY], 0)) {
 
   Unix.close(file);
 };
+
+/* open an input channel for the named file */
+switch (open_in("my-file.txt")) {
+| exception (Sys_error(msg)) => print_endline(msg)
+| file_in_channel =>
+  /* read the first line off that input channel */
+  let line = input_line(file_in_channel);
+
+  print_endline(line);
+
+  close_in(file_in_channel);
+};
